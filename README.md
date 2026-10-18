@@ -117,7 +117,7 @@ git push origin main
 
 ### 2. Deploy on Vercel
 1. Go to [vercel.com](https://vercel.com) and log in with GitHub.
-2. Click **Add New** → **Project** → Import `apnoai-task-2-khushi`.
+2. Click **Add New** → **Project** → Import `Khushi-React-Profile-Card`.
 3. Framework Preset: **Other** → Click **Deploy**.
 
 ---

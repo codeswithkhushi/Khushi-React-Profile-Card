@@ -20,7 +20,7 @@ Built as part of **ApnoAI Internship Task 2: Build a React Component**.
 - **Intern Name**: Khushi
 - **Role**: Web Development Intern at ApnoAI
 - **Status**: 🟢 Web Dev Intern @ ApnoAI
-- **Internship Validity**: 🗓️ **14 Oct 2026 – 14 Nov 2026**
+- **Internship Validity**: 🗓️ **1 Oct 2026 – 30 Oct 2026**
 - **Technologies & Tools**:
   - `HTML`
   - `CSS`
@@ -37,22 +37,28 @@ Built as part of **ApnoAI Internship Task 2: Build a React Component**.
 
 ## 🌟 Key Features
 
-1. **Modern Glassmorphism Design (2026 Standard)**
+1. **Custom Profile Photo Upload (Interactive React Feature)**
+   - Click the **📷 Change Photo** hover overlay or the **Upload Photo** button to choose any image from your device.
+   - Built with the JavaScript `FileReader` API and React `useState`.
+   - Uses `localStorage` persistence so your uploaded photo stays even after page refresh.
+   - Includes a **↺ Reset** option to revert back to default anytime.
+
+2. **Modern Glassmorphism Design (2026 Standard)**
    - Translucent glass panel with `backdrop-filter: blur(24px)`.
    - Floating ambient animated gradient orbs.
    - Fully responsive on mobile, tablet, and desktop screens.
 
-2. **Component & Props Architecture**
+3. **Component & Props Architecture**
    - Pure React component structure (`ProfileCard`).
    - Dynamic props for `name`, `role`, `status`, `validity`, `bio`, `skills`, `avatar`, `github`, and `linkedin`.
    - List rendering via `.map()` for technology chips.
 
-3. **Multi-State Interactivity (`useState`)**
+4. **Multi-State Interactivity (`useState`)**
    - 🌙 / ☀️ **Dark & Light Mode Toggle**: Smooth theme transition.
    - 🤝 **Connect Button**: Interactive connection toggle (`Connect` ↔ `✓ Connected with Khushi`).
    - ❤️ **Interactive Like Counter (+10 XP Bonus)**: Dynamic counter with animated heart icon.
 
-4. **Dedicated GitHub & LinkedIn Buttons**
+5. **Dedicated GitHub & LinkedIn Buttons**
    - Clean, accessible buttons that open directly in a new tab (`target="_blank"`).
 
 ---
@@ -74,7 +80,7 @@ function ProfileCard({ name, role, validity, bio, skills, avatar, github, linked
 |---|---|---|
 | **What is it?** | Data passed **IN** to the component | Data managed **INSIDE** the component |
 | **Mutability** | **Read-only** (Immutable) | **Mutable** via updater functions (`useState`) |
-| **In this Project** | `name`, `role`, `validity`, `skills`, `github`, `linkedin` | `isDark`, `isConnected`, `likes`, `hasLiked` |
+| **In this Project** | `name`, `role`, `validity`, `skills`, `github`, `linkedin` | `isDark`, `isConnected`, `likes`, `currentAvatar` |
 
 ---
 
@@ -106,7 +112,7 @@ function ProfileCard({ name, role, validity, bio, skills, avatar, github, linked
 ### 1. Git Push
 ```bash
 git add .
-git commit -m "feat: update technologies list and add internship validity period"
+git commit -m "feat: add photo upload feature and update validity to 1 Oct - 30 Oct 2026"
 git push origin main
 ```
 

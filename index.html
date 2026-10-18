@@ -61,13 +61,13 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState } = React;
+    const { useState, useRef } = React;
 
     // =========================================================================
     // REACT CONCEPTS:
     // 1. COMPONENTS: Reusable UI blocks (ProfileCard function returning JSX)
     // 2. PROPS: Inputs passed into component (name, role, validity, skills, etc.)
-    // 3. STATE: Dynamic internal memory managed with useState (theme, connect, likes)
+    // 3. STATE: Dynamic internal memory managed with useState (theme, connect, likes, photo)
     // =========================================================================
 
     function ProfileCard({
@@ -95,6 +95,16 @@
       const [likes, setLikes] = useState(initialLikes);
       const [hasLiked, setHasLiked] = useState(false);
 
+      // 4. Custom Profile Photo State (Upload feature with LocalStorage persistence)
+      const [currentAvatar, setCurrentAvatar] = useState(() => {
+        try {
+          return localStorage.getItem('khushi_profile_photo') || avatar;
+        } catch (e) {
+          return avatar;
+        }
+      });
+      const fileInputRef = useRef(null);
+
       const toggleTheme = () => setIsDark(prev => !prev);
       const toggleConnect = () => setIsConnected(prev => !prev);
 
@@ -106,6 +116,33 @@
           setLikes(prev => prev + 1);
           setHasLiked(true);
         }
+      };
+
+      // Handle local photo upload directly from user's device
+      const handlePhotoUpload = (e) => {
+        const file = e.target.files && e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const result = reader.result;
+            setCurrentAvatar(result);
+            try {
+              localStorage.setItem('khushi_profile_photo', result);
+            } catch (err) {
+              console.warn('LocalStorage quota or permission error:', err);
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+
+      // Reset photo back to original
+      const handleResetPhoto = (e) => {
+        e.stopPropagation();
+        try {
+          localStorage.removeItem('khushi_profile_photo');
+        } catch (err) {}
+        setCurrentAvatar(avatar);
       };
 
       return (
@@ -169,11 +206,11 @@
               </button>
             </div>
 
-            {/* Profile Avatar */}
-            <div className="flex justify-center mb-4">
+            {/* Profile Avatar with Photo Upload Option */}
+            <div className="flex flex-col items-center justify-center mb-4">
               <div className="relative group">
                 <img
-                  src={avatar}
+                  src={currentAvatar}
                   alt={name}
                   onError={(e) => {
                     // Fallback professional avatar
@@ -182,7 +219,62 @@
                   }}
                   className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-white/60 shadow-xl transition-transform duration-300 group-hover:scale-105"
                 />
+
+                {/* Active Status Dot */}
                 <span className="absolute bottom-1 right-2 w-5 h-5 bg-green-500 border-2 border-white rounded-full"></span>
+
+                {/* Hover Camera Overlay to Change Photo */}
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                  className="absolute inset-0 rounded-full bg-black/45 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white transition-opacity duration-200 cursor-pointer backdrop-blur-[2px]"
+                  title="Click to choose your photo"
+                  aria-label="Upload profile photo"
+                >
+                  <span className="text-xl">📷</span>
+                  <span className="text-[11px] font-semibold mt-0.5">Change Photo</span>
+                </button>
+              </div>
+
+              {/* Hidden file input */}
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoUpload}
+                className="hidden"
+              />
+
+              {/* Upload Photo Button & Reset Option */}
+              <div className="flex items-center gap-2 mt-2.5">
+                <button
+                  type="button"
+                  onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                  className={`text-[11px] font-semibold px-3 py-1 rounded-full flex items-center gap-1.5 transition-all shadow-sm ${
+                    isDark
+                      ? 'text-gray-200 hover:text-white bg-white/10 hover:bg-white/20 border border-white/15'
+                      : 'text-gray-800 hover:text-black bg-white/70 hover:bg-white border border-white/60'
+                  }`}
+                  title="Upload a photo from your computer"
+                >
+                  <span>📷</span>
+                  <span>Upload Photo</span>
+                </button>
+
+                {currentAvatar !== avatar && (
+                  <button
+                    type="button"
+                    onClick={handleResetPhoto}
+                    className={`text-[11px] font-semibold px-2.5 py-1 rounded-full transition-all ${
+                      isDark
+                        ? 'text-red-400 hover:text-red-300 bg-red-950/50 border border-red-500/20'
+                        : 'text-red-600 hover:text-red-700 bg-red-100/70 border border-red-200'
+                    }`}
+                    title="Reset to default photo"
+                  >
+                    ↺ Reset
+                  </button>
+                )}
               </div>
             </div>
 
@@ -191,16 +283,16 @@
               <h1 className={`text-2xl sm:text-3xl font-extrabold tracking-tight mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                 {name}
               </h1>
-              <p className={`text-sm sm:text-base font-semibold mb-2.5 ${isDark ? 'text-purple-300' : 'text-purple-700'}`}>
+              <p className={`text-sm sm:text-base font-semibold mb-2 ${isDark ? 'text-purple-300' : 'text-purple-700'}`}>
                 {role}
               </p>
 
-              {/* Internship Validity Badge */}
+              {/* Internship Validity Badge (1 Oct 2026 – 30 Oct 2026) */}
               {validity && (
                 <div className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold shadow-sm ${
                   isDark
-                    ? 'bg-purple-950/60 text-purple-200 border border-purple-500/30'
-                    : 'bg-purple-100/90 text-purple-900 border border-purple-200'
+                    ? 'bg-purple-950/70 text-purple-200 border border-purple-500/30'
+                    : 'bg-purple-100 text-purple-900 border border-purple-200'
                 }`}>
                   <span>🗓️</span>
                   <span><strong>Validity:</strong> {validity}</span>
@@ -213,7 +305,7 @@
               {bio}
             </p>
 
-            {/* Languages & Technologies (Only: HTML, CSS, JavaScript, React, Git, GitHub, VS Code) */}
+            {/* Languages & Technologies (HTML, CSS, JavaScript, React, Git, GitHub, VS Code) */}
             <div className="mb-6">
               <p className={`text-xs font-bold uppercase tracking-wider text-center mb-2.5 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
                 Technologies & Tools
@@ -314,7 +406,7 @@
         name="Khushi"
         role="Web Development Intern at ApnoAI"
         status="Web Dev Intern @ ApnoAI"
-        validity="14 Oct 2026 – 14 Nov 2026"
+        validity="1 Oct 2026 – 30 Oct 2026"
         bio="Web Development Intern at ApnoAI passionate about building modern, responsive, and component-driven web applications using React, JavaScript, and modern web tools."
         skills={["HTML", "CSS", "JavaScript", "React", "Git", "GitHub", "VS Code"]}
         avatar="https://github.com/codeswithkhushi.png"

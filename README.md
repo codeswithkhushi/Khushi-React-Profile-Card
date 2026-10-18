@@ -37,12 +37,10 @@ Built as part of **ApnoAI Internship Task 2: Build a React Component**.
 
 ## 🌟 Key Features
 
-1. **Owner-Secured Profile Photo (`ownerPin` Authentication)**
-   - Only the card owner (Khushi) is authorized to change the profile photo.
-   - Protected with an **Owner PIN Verification** prompt (Default PIN: `1234`).
-   - If a visitor tries to change the photo, access is denied.
-   - Includes local device upload (`FileReader`), `localStorage` persistence, and reset option.
-   - Bundled with a permanent, offline-ready local headshot (`profile.jpg`).
+1. **Professional Framed Profile Photo**
+   - High-resolution, permanently fixed profile photo (`profile.jpg`) with subtle glow borders.
+   - Perfectly framed and centered (`objectPosition: center 22%`) in a circular glassmorphic avatar container.
+   - Zero edit/tampering options for visitors — clean, secure, and permanent.
 
 2. **Modern Glassmorphism Design (2026 Standard)**
    - Translucent glass panel with `backdrop-filter: blur(24px)`.

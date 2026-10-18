@@ -61,13 +61,13 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useRef } = React;
+    const { useState } = React;
 
     // =========================================================================
     // REACT CONCEPTS:
     // 1. COMPONENTS: Reusable UI blocks (ProfileCard function returning JSX)
     // 2. PROPS: Inputs passed into component (name, role, validity, skills, etc.)
-    // 3. STATE: Dynamic internal memory managed with useState (theme, connect, likes, photo)
+    // 3. STATE: Dynamic internal memory managed with useState (theme, connect, likes)
     // =========================================================================
 
     function ProfileCard({
@@ -77,9 +77,8 @@
       validity,
       bio,
       skills,
-      avatar,
+      avatar = "profile.jpg",
       initialLikes = 52,
-      ownerPin = "1234",
       github,
       linkedin
     }) {
@@ -96,16 +95,6 @@
       const [likes, setLikes] = useState(initialLikes);
       const [hasLiked, setHasLiked] = useState(false);
 
-      // 4. Custom Profile Photo State (Upload feature with LocalStorage persistence)
-      const [currentAvatar, setCurrentAvatar] = useState(() => {
-        try {
-          return localStorage.getItem('khushi_profile_photo') || avatar;
-        } catch (e) {
-          return avatar;
-        }
-      });
-      const fileInputRef = useRef(null);
-
       const toggleTheme = () => setIsDark(prev => !prev);
       const toggleConnect = () => setIsConnected(prev => !prev);
 
@@ -116,53 +105,6 @@
         } else {
           setLikes(prev => prev + 1);
           setHasLiked(true);
-        }
-      };
-
-      // Owner Security Check: Only the card owner with the PIN can change the photo
-      const handlePhotoUploadClick = () => {
-        const enteredPin = window.prompt("🔐 Owner Verification:\nOnly Khushi (Card Owner) is authorized to change this photo.\n\nEnter Owner PIN to change photo (Default: 1234):");
-        if (enteredPin === null) return; // User cancelled
-        if (enteredPin.trim() === String(ownerPin).trim()) {
-          if (fileInputRef.current) {
-            fileInputRef.current.click();
-          }
-        } else {
-          alert("❌ Access Denied: Incorrect PIN.\nOnly the card owner can modify this profile photo.");
-        }
-      };
-
-      // Handle local photo upload directly from owner's device
-      const handlePhotoUpload = (e) => {
-        const file = e.target.files && e.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const result = reader.result;
-            setCurrentAvatar(result);
-            try {
-              localStorage.setItem('khushi_profile_photo', result);
-            } catch (err) {
-              console.warn('LocalStorage quota or permission error:', err);
-            }
-          };
-          reader.readAsDataURL(file);
-        }
-      };
-
-      // Reset photo back to original (Owner Protected)
-      const handleResetPhoto = (e) => {
-        e.stopPropagation();
-        const enteredPin = window.prompt("🔐 Owner Verification:\nEnter Owner PIN to reset photo to default:");
-        if (enteredPin === null) return;
-        if (enteredPin.trim() === String(ownerPin).trim()) {
-          try {
-            localStorage.removeItem('khushi_profile_photo');
-          } catch (err) {}
-          setCurrentAvatar(avatar);
-          alert("✅ Profile photo reset to default.");
-        } else {
-          alert("❌ Access Denied: Incorrect PIN.");
         }
       };
 
@@ -227,75 +169,25 @@
               </button>
             </div>
 
-            {/* Profile Avatar with Photo Upload Option */}
-            <div className="flex flex-col items-center justify-center mb-4">
+            {/* Profile Avatar (Clean Fixed Framing) */}
+            <div className="flex justify-center mb-4">
               <div className="relative group">
-                <img
-                  src={currentAvatar}
-                  alt={name}
-                  onError={(e) => {
-                    // Fallback professional avatar
-                    e.currentTarget.onerror = null;
-                    e.currentTarget.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=faces";
-                  }}
-                  className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-white/60 shadow-xl transition-transform duration-300 group-hover:scale-105"
-                />
+                <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full p-1 bg-gradient-to-tr from-purple-500/60 via-pink-500/50 to-amber-400/50 shadow-xl">
+                  <img
+                    src={avatar}
+                    alt={name}
+                    style={{ objectPosition: 'center 22%' }}
+                    onError={(e) => {
+                      // Fallback avatar in case local file is missing
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=faces";
+                    }}
+                    className="w-full h-full rounded-full object-cover border-2 border-white/80 transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
 
                 {/* Active Status Dot */}
-                <span className="absolute bottom-1 right-2 w-5 h-5 bg-green-500 border-2 border-white rounded-full"></span>
-
-                {/* Hover Camera Overlay to Change Photo (Owner Protected) */}
-                <button
-                  type="button"
-                  onClick={handlePhotoUploadClick}
-                  className="absolute inset-0 rounded-full bg-black/45 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white transition-opacity duration-200 cursor-pointer backdrop-blur-[2px]"
-                  title="Owner Verification Required to Change Photo"
-                  aria-label="Upload profile photo (Owner only)"
-                >
-                  <span className="text-xl">🔐</span>
-                  <span className="text-[11px] font-semibold mt-0.5">Owner: Edit Photo</span>
-                </button>
-              </div>
-
-              {/* Hidden file input */}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handlePhotoUpload}
-                className="hidden"
-              />
-
-              {/* Upload Photo Button (Owner Protected) & Reset Option */}
-              <div className="flex items-center gap-2 mt-2.5">
-                <button
-                  type="button"
-                  onClick={handlePhotoUploadClick}
-                  className={`text-[11px] font-semibold px-3 py-1 rounded-full flex items-center gap-1.5 transition-all shadow-sm ${
-                    isDark
-                      ? 'text-gray-200 hover:text-white bg-white/10 hover:bg-white/20 border border-white/15'
-                      : 'text-gray-800 hover:text-black bg-white/70 hover:bg-white border border-white/60'
-                  }`}
-                  title="Only Khushi (Card Owner) can change this photo"
-                >
-                  <span>🔐</span>
-                  <span>Owner: Edit Photo</span>
-                </button>
-
-                {currentAvatar !== avatar && (
-                  <button
-                    type="button"
-                    onClick={handleResetPhoto}
-                    className={`text-[11px] font-semibold px-2.5 py-1 rounded-full transition-all ${
-                      isDark
-                        ? 'text-red-400 hover:text-red-300 bg-red-950/50 border border-red-500/20'
-                        : 'text-red-600 hover:text-red-700 bg-red-100/70 border border-red-200'
-                    }`}
-                    title="Reset to default photo"
-                  >
-                    ↺ Reset
-                  </button>
-                )}
+                <span className="absolute bottom-1 right-2 w-5 h-5 bg-green-500 border-2 border-white rounded-full shadow-md"></span>
               </div>
             </div>
 
@@ -431,7 +323,6 @@
         bio="Web Development Intern at ApnoAI passionate about building modern, responsive, and component-driven web applications using React, JavaScript, and modern web tools."
         skills={["HTML", "CSS", "JavaScript", "React", "Git", "GitHub", "VS Code"]}
         avatar="profile.jpg"
-        ownerPin="1234"
         initialLikes={52}
         github="https://github.com/codeswithkhushi"
         linkedin="https://www.linkedin.com/in/khushi-67102939a"

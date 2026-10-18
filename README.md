@@ -1,20 +1,17 @@
 # 🪪 React Glassmorphism Profile Card — ApnoAI Task 2
 
-![React 18](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
-![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.x-38B2AC?logo=tailwind-css&logoColor=white)
+![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)
+![VS Code](https://img.shields.io/badge/VS_Code-007ACC?logo=visual-studio-code&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Deployed-Vercel-black?logo=vercel&logoColor=white)
-![Single File](https://img.shields.io/badge/Setup-Zero_Build_Tools-success)
 
 A modern, responsive **Glassmorphism Profile Card** built with **React 18** and **Tailwind CSS**, designed entirely within a single HTML file (zero build tools or npm install needed).
 
 Built as part of **ApnoAI Internship Task 2: Build a React Component**.
-
----
-
-## 🚀 Live Demo & Repository
-- **Live Vercel URL**: `https://apnoai-task-2-khushi.vercel.app` *(or your deployed Vercel URL)*
-- **GitHub Repository**: [https://github.com/codeswithkhushi/apnoai-task-2-khushi](https://github.com/codeswithkhushi/apnoai-task-2-khushi)
 
 ---
 
@@ -23,13 +20,16 @@ Built as part of **ApnoAI Internship Task 2: Build a React Component**.
 - **Intern Name**: Khushi
 - **Role**: Web Development Intern at ApnoAI
 - **Status**: 🟢 Web Dev Intern @ ApnoAI
-- **Languages & Technologies Used**:
-  - **React 18** (Components, JSX, Hooks)
-  - **JavaScript (ES6+)** (Destructuring, arrow functions, template literals)
-  - **HTML5 & CSS3**
-  - **Tailwind CSS** (Utility classes, modern glassmorphism styling)
-  - **Git & GitHub** (Version control, professional commit workflow)
-- **Direct Profile Links**:
+- **Internship Validity**: 🗓️ **14 Oct 2026 – 14 Nov 2026**
+- **Technologies & Tools**:
+  - `HTML`
+  - `CSS`
+  - `JavaScript`
+  - `React`
+  - `Git`
+  - `GitHub`
+  - `VS Code`
+- **Official Profiles (Clickable Buttons)**:
   - [GitHub Profile](https://github.com/codeswithkhushi) (with official GitHub logo)
   - [LinkedIn Profile](https://www.linkedin.com/in/khushi-67102939a) (with official LinkedIn logo)
 
@@ -37,23 +37,23 @@ Built as part of **ApnoAI Internship Task 2: Build a React Component**.
 
 ## 🌟 Key Features
 
-1. **Modern Glassmorphism Design (2026 Dashboard Style)**
+1. **Modern Glassmorphism Design (2026 Standard)**
    - Translucent glass panel with `backdrop-filter: blur(24px)`.
-   - Subtle borders, ambient animated gradient orbs, and clean typography.
+   - Floating ambient animated gradient orbs.
    - Fully responsive on mobile, tablet, and desktop screens.
 
 2. **Component & Props Architecture**
    - Pure React component structure (`ProfileCard`).
-   - Dynamic props for `name`, `role`, `status`, `bio`, `skills`, `avatar`, `github`, and `linkedin`.
-   - Dynamic mapping for tech stack chips via `.map()`.
+   - Dynamic props for `name`, `role`, `status`, `validity`, `bio`, `skills`, `avatar`, `github`, and `linkedin`.
+   - List rendering via `.map()` for technology chips.
 
 3. **Multi-State Interactivity (`useState`)**
-   - 🌙 / ☀️ **Dark & Light Mode Toggle**: Smooth theme transition across the page.
+   - 🌙 / ☀️ **Dark & Light Mode Toggle**: Smooth theme transition.
    - 🤝 **Connect Button**: Interactive connection toggle (`Connect` ↔ `✓ Connected with Khushi`).
-   - ❤️ **Interactive Like Counter (+10 XP Bonus)**: Dynamic like button that tracks state (`likes`, `hasLiked`) with heart animation.
+   - ❤️ **Interactive Like Counter (+10 XP Bonus)**: Dynamic counter with animated heart icon.
 
 4. **Dedicated GitHub & LinkedIn Buttons**
-   - Styled buttons with official SVG logos that open each profile directly in a new tab (`target="_blank"`).
+   - Clean, accessible buttons that open directly in a new tab (`target="_blank"`).
 
 ---
 
@@ -63,7 +63,7 @@ Built as part of **ApnoAI Internship Task 2: Build a React Component**.
 React applications are composed of small, modular UI units called **Components**.
 
 ```jsx
-function ProfileCard({ name, role, bio, skills, avatar, github, linkedin }) {
+function ProfileCard({ name, role, validity, bio, skills, avatar, github, linkedin }) {
   // Encapsulated UI markup and logic
 }
 ```
@@ -74,14 +74,14 @@ function ProfileCard({ name, role, bio, skills, avatar, github, linkedin }) {
 |---|---|---|
 | **What is it?** | Data passed **IN** to the component | Data managed **INSIDE** the component |
 | **Mutability** | **Read-only** (Immutable) | **Mutable** via updater functions (`useState`) |
-| **In this Project** | `name`, `role`, `bio`, `skills`, `github`, `linkedin` | `isDark`, `isConnected`, `likes`, `hasLiked` |
+| **In this Project** | `name`, `role`, `validity`, `skills`, `github`, `linkedin` | `isDark`, `isConnected`, `likes`, `hasLiked` |
 
 ---
 
 ## 🤖 Debugging with AI: "Explain, Don't Solve"
 
 ### Experiment & Debugging Log:
-1. **Scenario**: Intentionally changed `useState` to lowercase `usestate` or omitted a closing JSX tag.
+1. **Scenario**: Intentionally changed `useState` to lowercase `usestate`.
 2. **Error in Console**:
    ```
    Uncaught ReferenceError: usestate is not defined
@@ -90,7 +90,7 @@ function ProfileCard({ name, role, bio, skills, avatar, github, linkedin }) {
    > *"Explain this React error to me like I am a beginner and tell me how to fix it: Uncaught ReferenceError: usestate is not defined"*
 4. **Key Takeaway**:
    - JavaScript is case-sensitive. React hooks use camelCase (`useState`).
-   - Destructuring `{ useState } = React` imports the exact name `useState`. Calling `usestate` looks for an undeclared global variable.
+   - Destructuring `{ useState } = React` imports `useState`. Calling `usestate` looks for an undeclared global variable.
 
 ---
 
@@ -106,10 +106,8 @@ function ProfileCard({ name, role, bio, skills, avatar, github, linkedin }) {
 ### 1. Git Push
 ```bash
 git add .
-git commit -m "feat: customize profile card for ApnoAI web dev intern with GitHub and LinkedIn"
-git branch -M main
-git remote add origin https://github.com/codeswithkhushi/apnoai-task-2-khushi.git
-git push -u origin main
+git commit -m "feat: update technologies list and add internship validity period"
+git push origin main
 ```
 
 ### 2. Deploy on Vercel

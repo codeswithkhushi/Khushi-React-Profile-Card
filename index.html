@@ -66,7 +66,7 @@
     // =========================================================================
     // REACT CONCEPTS:
     // 1. COMPONENTS: Reusable UI blocks (ProfileCard function returning JSX)
-    // 2. PROPS: Inputs passed into component (name, role, skills, avatar, etc.)
+    // 2. PROPS: Inputs passed into component (name, role, validity, skills, etc.)
     // 3. STATE: Dynamic internal memory managed with useState (theme, connect, likes)
     // =========================================================================
 
@@ -74,10 +74,11 @@
       name,
       role,
       status,
+      validity,
       bio,
       skills,
       avatar,
-      initialLikes = 45,
+      initialLikes = 52,
       github,
       linkedin
     }) {
@@ -138,7 +139,7 @@
             }`}
           >
             {/* Top Bar: Intern Status Badge + Like Counter Button */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-5">
               {/* Status Badge */}
               <div
                 className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold ${
@@ -169,7 +170,7 @@
             </div>
 
             {/* Profile Avatar */}
-            <div className="flex justify-center mb-5">
+            <div className="flex justify-center mb-4">
               <div className="relative group">
                 <img
                   src={avatar}
@@ -190,26 +191,38 @@
               <h1 className={`text-2xl sm:text-3xl font-extrabold tracking-tight mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                 {name}
               </h1>
-              <p className={`text-sm sm:text-base font-semibold ${isDark ? 'text-purple-300' : 'text-purple-700'}`}>
+              <p className={`text-sm sm:text-base font-semibold mb-2.5 ${isDark ? 'text-purple-300' : 'text-purple-700'}`}>
                 {role}
               </p>
+
+              {/* Internship Validity Badge */}
+              {validity && (
+                <div className={`inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-semibold shadow-sm ${
+                  isDark
+                    ? 'bg-purple-950/60 text-purple-200 border border-purple-500/30'
+                    : 'bg-purple-100/90 text-purple-900 border border-purple-200'
+                }`}>
+                  <span>🗓️</span>
+                  <span><strong>Validity:</strong> {validity}</span>
+                </div>
+              )}
             </div>
 
             {/* Intern Bio */}
-            <p className={`text-center text-sm leading-relaxed mb-6 px-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+            <p className={`text-center text-sm leading-relaxed mb-5 px-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
               {bio}
             </p>
 
-            {/* Languages & Technologies Used for this Intern */}
+            {/* Languages & Technologies (Only: HTML, CSS, JavaScript, React, Git, GitHub, VS Code) */}
             <div className="mb-6">
               <p className={`text-xs font-bold uppercase tracking-wider text-center mb-2.5 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                Tech Stack & Languages
+                Technologies & Tools
               </p>
               <div className="flex flex-wrap gap-2 justify-center">
                 {skills && skills.map((skill, index) => (
                   <span
                     key={index}
-                    className={`px-3 py-1 rounded-full text-xs font-medium transition-all duration-200 hover:-translate-y-0.5 ${
+                    className={`px-3 py-1 rounded-full text-xs font-semibold transition-all duration-200 hover:-translate-y-0.5 ${
                       isDark
                         ? 'bg-white/10 text-gray-200 border border-white/15 hover:bg-white/15'
                         : 'bg-white/60 text-gray-800 border border-white/50 hover:bg-white/80 shadow-sm'
@@ -236,7 +249,7 @@
             </button>
 
             {/* Only GitHub and LinkedIn Logos / Buttons */}
-            <div className="grid grid-cols-2 gap-3 pt-2">
+            <div className="grid grid-cols-2 gap-3 pt-1">
               {/* GitHub Button */}
               {github && (
                 <a
@@ -301,8 +314,9 @@
         name="Khushi"
         role="Web Development Intern at ApnoAI"
         status="Web Dev Intern @ ApnoAI"
-        bio="Web Development Intern at ApnoAI passionate about building modern, responsive, and component-driven web applications using React, JavaScript, and Tailwind CSS."
-        skills={["React 18", "JavaScript (ES6+)", "Tailwind CSS", "HTML5", "CSS3", "Git & GitHub"]}
+        validity="14 Oct 2026 – 14 Nov 2026"
+        bio="Web Development Intern at ApnoAI passionate about building modern, responsive, and component-driven web applications using React, JavaScript, and modern web tools."
+        skills={["HTML", "CSS", "JavaScript", "React", "Git", "GitHub", "VS Code"]}
         avatar="https://github.com/codeswithkhushi.png"
         initialLikes={52}
         github="https://github.com/codeswithkhushi"

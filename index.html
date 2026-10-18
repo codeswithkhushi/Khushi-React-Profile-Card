@@ -169,25 +169,30 @@
               </button>
             </div>
 
-            {/* Profile Avatar (Clean Fixed Framing) */}
+            {/* Profile Avatar (Zoomed & Headshot Framed) */}
             <div className="flex justify-center mb-4">
               <div className="relative group">
-                <div className="w-28 h-28 sm:w-32 sm:h-32 rounded-full p-1 bg-gradient-to-tr from-purple-500/60 via-pink-500/50 to-amber-400/50 shadow-xl">
-                  <img
-                    src={avatar}
-                    alt={name}
-                    style={{ objectPosition: 'center 22%' }}
-                    onError={(e) => {
-                      // Fallback avatar in case local file is missing
-                      e.currentTarget.onerror = null;
-                      e.currentTarget.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=faces";
-                    }}
-                    className="w-full h-full rounded-full object-cover border-2 border-white/80 transition-transform duration-300 group-hover:scale-105"
-                  />
+                <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-full p-1 bg-gradient-to-tr from-purple-500/60 via-pink-500/50 to-amber-400/50 shadow-xl">
+                  <div className="w-full h-full rounded-full overflow-hidden border-2 border-white/90 bg-white/20">
+                    <img
+                      src={avatar}
+                      alt={name}
+                      style={{
+                        transform: 'scale(1.45)',
+                        transformOrigin: 'center 25%'
+                      }}
+                      onError={(e) => {
+                        // Fallback avatar in case local file is missing
+                        e.currentTarget.onerror = null;
+                        e.currentTarget.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=faces";
+                      }}
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.52]"
+                    />
+                  </div>
                 </div>
 
                 {/* Active Status Dot */}
-                <span className="absolute bottom-1 right-2 w-5 h-5 bg-green-500 border-2 border-white rounded-full shadow-md"></span>
+                <span className="absolute bottom-1 right-2 w-5 h-5 bg-green-500 border-2 border-white rounded-full shadow-md z-10"></span>
               </div>
             </div>
 

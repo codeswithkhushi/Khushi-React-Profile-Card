@@ -79,6 +79,7 @@
       skills,
       avatar,
       initialLikes = 52,
+      ownerPin = "1234",
       github,
       linkedin
     }) {
@@ -118,7 +119,20 @@
         }
       };
 
-      // Handle local photo upload directly from user's device
+      // Owner Security Check: Only the card owner with the PIN can change the photo
+      const handlePhotoUploadClick = () => {
+        const enteredPin = window.prompt("🔐 Owner Verification:\nOnly Khushi (Card Owner) is authorized to change this photo.\n\nEnter Owner PIN to change photo (Default: 1234):");
+        if (enteredPin === null) return; // User cancelled
+        if (enteredPin.trim() === String(ownerPin).trim()) {
+          if (fileInputRef.current) {
+            fileInputRef.current.click();
+          }
+        } else {
+          alert("❌ Access Denied: Incorrect PIN.\nOnly the card owner can modify this profile photo.");
+        }
+      };
+
+      // Handle local photo upload directly from owner's device
       const handlePhotoUpload = (e) => {
         const file = e.target.files && e.target.files[0];
         if (file) {
@@ -136,13 +150,20 @@
         }
       };
 
-      // Reset photo back to original
+      // Reset photo back to original (Owner Protected)
       const handleResetPhoto = (e) => {
         e.stopPropagation();
-        try {
-          localStorage.removeItem('khushi_profile_photo');
-        } catch (err) {}
-        setCurrentAvatar(avatar);
+        const enteredPin = window.prompt("🔐 Owner Verification:\nEnter Owner PIN to reset photo to default:");
+        if (enteredPin === null) return;
+        if (enteredPin.trim() === String(ownerPin).trim()) {
+          try {
+            localStorage.removeItem('khushi_profile_photo');
+          } catch (err) {}
+          setCurrentAvatar(avatar);
+          alert("✅ Profile photo reset to default.");
+        } else {
+          alert("❌ Access Denied: Incorrect PIN.");
+        }
       };
 
       return (
@@ -223,16 +244,16 @@
                 {/* Active Status Dot */}
                 <span className="absolute bottom-1 right-2 w-5 h-5 bg-green-500 border-2 border-white rounded-full"></span>
 
-                {/* Hover Camera Overlay to Change Photo */}
+                {/* Hover Camera Overlay to Change Photo (Owner Protected) */}
                 <button
                   type="button"
-                  onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                  onClick={handlePhotoUploadClick}
                   className="absolute inset-0 rounded-full bg-black/45 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white transition-opacity duration-200 cursor-pointer backdrop-blur-[2px]"
-                  title="Click to choose your photo"
-                  aria-label="Upload profile photo"
+                  title="Owner Verification Required to Change Photo"
+                  aria-label="Upload profile photo (Owner only)"
                 >
-                  <span className="text-xl">📷</span>
-                  <span className="text-[11px] font-semibold mt-0.5">Change Photo</span>
+                  <span className="text-xl">🔐</span>
+                  <span className="text-[11px] font-semibold mt-0.5">Owner: Edit Photo</span>
                 </button>
               </div>
 
@@ -245,20 +266,20 @@
                 className="hidden"
               />
 
-              {/* Upload Photo Button & Reset Option */}
+              {/* Upload Photo Button (Owner Protected) & Reset Option */}
               <div className="flex items-center gap-2 mt-2.5">
                 <button
                   type="button"
-                  onClick={() => fileInputRef.current && fileInputRef.current.click()}
+                  onClick={handlePhotoUploadClick}
                   className={`text-[11px] font-semibold px-3 py-1 rounded-full flex items-center gap-1.5 transition-all shadow-sm ${
                     isDark
                       ? 'text-gray-200 hover:text-white bg-white/10 hover:bg-white/20 border border-white/15'
                       : 'text-gray-800 hover:text-black bg-white/70 hover:bg-white border border-white/60'
                   }`}
-                  title="Upload a photo from your computer"
+                  title="Only Khushi (Card Owner) can change this photo"
                 >
-                  <span>📷</span>
-                  <span>Upload Photo</span>
+                  <span>🔐</span>
+                  <span>Owner: Edit Photo</span>
                 </button>
 
                 {currentAvatar !== avatar && (
@@ -409,7 +430,8 @@
         validity="1 Oct 2026 – 30 Oct 2026"
         bio="Web Development Intern at ApnoAI passionate about building modern, responsive, and component-driven web applications using React, JavaScript, and modern web tools."
         skills={["HTML", "CSS", "JavaScript", "React", "Git", "GitHub", "VS Code"]}
-        avatar="https://github.com/codeswithkhushi.png"
+        avatar="profile.jpg"
+        ownerPin="1234"
         initialLikes={52}
         github="https://github.com/codeswithkhushi"
         linkedin="https://www.linkedin.com/in/khushi-67102939a"

@@ -37,11 +37,12 @@ Built as part of **ApnoAI Internship Task 2: Build a React Component**.
 
 ## 🌟 Key Features
 
-1. **Custom Profile Photo Upload (Interactive React Feature)**
-   - Click the **📷 Change Photo** hover overlay or the **Upload Photo** button to choose any image from your device.
-   - Built with the JavaScript `FileReader` API and React `useState`.
-   - Uses `localStorage` persistence so your uploaded photo stays even after page refresh.
-   - Includes a **↺ Reset** option to revert back to default anytime.
+1. **Owner-Secured Profile Photo (`ownerPin` Authentication)**
+   - Only the card owner (Khushi) is authorized to change the profile photo.
+   - Protected with an **Owner PIN Verification** prompt (Default PIN: `1234`).
+   - If a visitor tries to change the photo, access is denied.
+   - Includes local device upload (`FileReader`), `localStorage` persistence, and reset option.
+   - Bundled with a permanent, offline-ready local headshot (`profile.jpg`).
 
 2. **Modern Glassmorphism Design (2026 Standard)**
    - Translucent glass panel with `backdrop-filter: blur(24px)`.

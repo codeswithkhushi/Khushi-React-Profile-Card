@@ -1,4 +1,4 @@
-# 🪪 React Profile Card
+# 🪪 Khushi Profile Card
 
 ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=black)
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black)

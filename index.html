@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Khushi — React Profile Card | ApnoAI Task 2</title>
+  <title>Khushi — React Profile Card | ApnoAI Intern</title>
 
   <!-- React 18 CDN -->
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -23,34 +23,34 @@
       transition: background-color 0.4s ease;
     }
     .glass {
-      background: rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.25);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border: 1px solid rgba(255, 255, 255, 0.4);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
     }
     .glass-dark {
-      background: rgba(17, 24, 39, 0.65);
+      background: rgba(17, 24, 39, 0.72);
       backdrop-filter: blur(24px);
       -webkit-backdrop-filter: blur(24px);
       border: 1px solid rgba(255, 255, 255, 0.12);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
     }
     .glass-pill {
-      background: rgba(255, 255, 255, 0.15);
+      background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
     .glass-pill-dark {
-      background: rgba(255, 255, 255, 0.07);
+      background: rgba(255, 255, 255, 0.08);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.12);
     }
     @keyframes pulseGlow {
-      0%, 100% { opacity: 0.8; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.05); }
+      0%, 100% { opacity: 0.75; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.06); }
     }
     .animate-pulse-glow {
       animation: pulseGlow 4s infinite ease-in-out;
@@ -64,10 +64,10 @@
     const { useState } = React;
 
     // =========================================================================
-    // REACT CONCEPTS EXPLAINED:
-    // 1. COMPONENTS: Reusable, self-contained UI building blocks (functions returning JSX).
-    // 2. PROPS: Immutable inputs passed from a parent component down to a child.
-    // 3. STATE: Internal data managed inside the component that changes over time (via useState).
+    // REACT CONCEPTS:
+    // 1. COMPONENTS: Reusable UI blocks (ProfileCard function returning JSX)
+    // 2. PROPS: Inputs passed into component (name, role, skills, avatar, etc.)
+    // 3. STATE: Dynamic internal memory managed with useState (theme, connect, likes)
     // =========================================================================
 
     function ProfileCard({
@@ -77,32 +77,26 @@
       bio,
       skills,
       avatar,
-      initialLikes = 42,
+      initialLikes = 45,
       github,
-      linkedin,
-      twitter,
-      instagram
+      linkedin
     }) {
       // -----------------------------------------------------------------------
-      // STATE MANAGEMENT (Interactive UI Memory)
+      // STATE (Dynamic Data)
       // -----------------------------------------------------------------------
-      // 1. Theme State: tracks whether dark mode is active
+      // 1. Theme State (Dark / Light mode)
       const [isDark, setIsDark] = useState(false);
 
-      // 2. Connect Button State: tracks whether user has connected
+      // 2. Connect Button State
       const [isConnected, setIsConnected] = useState(false);
 
-      // 3. BONUS CHALLENGE FEATURE: Interactive Like Counter
+      // 3. Interactive Like Counter (Bonus Feature +10 XP)
       const [likes, setLikes] = useState(initialLikes);
       const [hasLiked, setHasLiked] = useState(false);
 
-      // Toggle Theme
       const toggleTheme = () => setIsDark(prev => !prev);
-
-      // Toggle Connection status
       const toggleConnect = () => setIsConnected(prev => !prev);
 
-      // Toggle Like count (Increments/Decrements dynamically)
       const handleLike = () => {
         if (hasLiked) {
           setLikes(prev => prev - 1);
@@ -118,10 +112,10 @@
           className={`min-h-screen w-full flex items-center justify-center p-4 sm:p-6 transition-all duration-500 relative overflow-hidden ${
             isDark
               ? 'bg-gradient-to-br from-gray-950 via-slate-900 to-zinc-900 text-white'
-              : 'bg-gradient-to-br from-violet-400 via-pink-300 to-amber-200 text-gray-900'
+              : 'bg-gradient-to-br from-purple-400 via-pink-300 to-amber-200 text-gray-900'
           }`}
         >
-          {/* Ambient Background Gradient Orbs */}
+          {/* Ambient Background Glow Effect */}
           <div className="absolute top-1/4 -left-20 w-80 h-80 rounded-full bg-purple-500/20 blur-3xl pointer-events-none animate-pulse-glow"></div>
           <div className="absolute bottom-1/4 -right-20 w-80 h-80 rounded-full bg-pink-500/20 blur-3xl pointer-events-none animate-pulse-glow" style={{ animationDelay: '2s' }}></div>
 
@@ -137,35 +131,35 @@
             <span className="text-xl select-none">{isDark ? '☀️' : '🌙'}</span>
           </button>
 
-          {/* Main Glassmorphism Card */}
+          {/* Main Glassmorphism Profile Card */}
           <div
             className={`w-full max-w-md rounded-3xl p-6 sm:p-8 transition-all duration-300 z-10 ${
               isDark ? 'glass-dark' : 'glass'
             }`}
           >
-            {/* Top Bar: Status Badge + Like Counter Button */}
+            {/* Top Bar: Intern Status Badge + Like Counter Button */}
             <div className="flex items-center justify-between mb-6">
-              {/* Availability Status Badge */}
+              {/* Status Badge */}
               <div
-                className={`flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium ${
-                  isDark ? 'glass-pill-dark text-emerald-400' : 'glass-pill text-emerald-800'
+                className={`flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold ${
+                  isDark ? 'glass-pill-dark text-emerald-400' : 'glass-pill text-emerald-900'
                 }`}
               >
                 <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                <span className="font-semibold">{status || 'Open to Opportunities'}</span>
+                <span>{status || 'Intern at ApnoAI'}</span>
               </div>
 
-              {/* Interactive Like Counter (Bonus +10 XP) */}
+              {/* Like Button with Counter (Bonus Challenge) */}
               <button
                 onClick={handleLike}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 transform active:scale-90 ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-300 transform active:scale-95 ${
                   hasLiked
                     ? 'bg-red-500 text-white shadow-md shadow-red-500/30'
                     : isDark
                     ? 'glass-pill-dark text-gray-300 hover:text-white hover:bg-white/10'
                     : 'glass-pill text-gray-800 hover:text-red-600 hover:bg-white/40'
                 }`}
-                title="Send appreciation"
+                title="Like Profile"
               >
                 <span className={`text-sm transition-transform duration-300 ${hasLiked ? 'scale-125' : ''}`}>
                   {hasLiked ? '❤️' : '🤍'}
@@ -174,42 +168,42 @@
               </button>
             </div>
 
-            {/* Avatar Section */}
+            {/* Profile Avatar */}
             <div className="flex justify-center mb-5">
               <div className="relative group">
                 <img
                   src={avatar}
                   alt={name}
                   onError={(e) => {
-                    // Fallback avatar in case network image fails
+                    // Fallback professional avatar
                     e.currentTarget.onerror = null;
                     e.currentTarget.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=faces";
                   }}
-                  className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-white/50 shadow-xl transition-transform duration-300 group-hover:scale-105"
+                  className="w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover border-4 border-white/60 shadow-xl transition-transform duration-300 group-hover:scale-105"
                 />
                 <span className="absolute bottom-1 right-2 w-5 h-5 bg-green-500 border-2 border-white rounded-full"></span>
               </div>
             </div>
 
-            {/* Name and Role */}
+            {/* Intern Name & Role */}
             <div className="text-center mb-4">
               <h1 className={`text-2xl sm:text-3xl font-extrabold tracking-tight mb-1 ${isDark ? 'text-white' : 'text-gray-900'}`}>
                 {name}
               </h1>
-              <p className={`text-sm sm:text-base font-medium ${isDark ? 'text-purple-300' : 'text-purple-700'}`}>
+              <p className={`text-sm sm:text-base font-semibold ${isDark ? 'text-purple-300' : 'text-purple-700'}`}>
                 {role}
               </p>
             </div>
 
-            {/* Bio Section */}
+            {/* Intern Bio */}
             <p className={`text-center text-sm leading-relaxed mb-6 px-2 ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
               {bio}
             </p>
 
-            {/* Skills Pills (Dynamically mapped from props) */}
+            {/* Languages & Technologies Used for this Intern */}
             <div className="mb-6">
-              <p className={`text-xs font-semibold uppercase tracking-wider text-center mb-2.5 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-                Core Competencies
+              <p className={`text-xs font-bold uppercase tracking-wider text-center mb-2.5 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                Tech Stack & Languages
               </p>
               <div className="flex flex-wrap gap-2 justify-center">
                 {skills && skills.map((skill, index) => (
@@ -241,73 +235,49 @@
               {isConnected ? '✓ Connected with Khushi' : 'Connect'}
             </button>
 
-            {/* Social Links */}
-            <div className="flex justify-center gap-3">
+            {/* Only GitHub and LinkedIn Logos / Buttons */}
+            <div className="grid grid-cols-2 gap-3 pt-2">
+              {/* GitHub Button */}
               {github && (
                 <a
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-2.5 rounded-full transition-transform hover:scale-110 active:scale-95 ${
-                    isDark ? 'glass-pill-dark text-gray-200 hover:text-white' : 'glass-pill text-gray-700 hover:text-black'
+                  className={`flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium text-xs sm:text-sm transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-sm ${
+                    isDark
+                      ? 'bg-white/10 hover:bg-white/20 text-white border border-white/15'
+                      : 'bg-white/70 hover:bg-white text-gray-900 border border-white/60'
                   }`}
                   aria-label="GitHub Profile"
-                  title="GitHub"
+                  title="Open GitHub Profile"
                 >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  {/* GitHub Logo */}
+                  <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
                   </svg>
+                  <span>GitHub</span>
                 </a>
               )}
 
+              {/* LinkedIn Button */}
               {linkedin && (
                 <a
                   href={linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-2.5 rounded-full transition-transform hover:scale-110 active:scale-95 ${
-                    isDark ? 'glass-pill-dark text-gray-200 hover:text-white' : 'glass-pill text-gray-700 hover:text-blue-600'
+                  className={`flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl font-medium text-xs sm:text-sm transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-sm ${
+                    isDark
+                      ? 'bg-blue-600/25 hover:bg-blue-600/40 text-blue-300 border border-blue-400/30'
+                      : 'bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200'
                   }`}
                   aria-label="LinkedIn Profile"
-                  title="LinkedIn"
+                  title="Open LinkedIn Profile"
                 >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  {/* LinkedIn Logo */}
+                  <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                   </svg>
-                </a>
-              )}
-
-              {twitter && (
-                <a
-                  href={twitter}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`p-2.5 rounded-full transition-transform hover:scale-110 active:scale-95 ${
-                    isDark ? 'glass-pill-dark text-gray-200 hover:text-white' : 'glass-pill text-gray-700 hover:text-sky-500'
-                  }`}
-                  aria-label="Twitter / X Profile"
-                  title="Twitter / X"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
-                  </svg>
-                </a>
-              )}
-
-              {instagram && (
-                <a
-                  href={instagram}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`p-2.5 rounded-full transition-transform hover:scale-110 active:scale-95 ${
-                    isDark ? 'glass-pill-dark text-gray-200 hover:text-white' : 'glass-pill text-gray-700 hover:text-pink-600'
-                  }`}
-                  aria-label="Instagram Profile"
-                  title="Instagram"
-                >
-                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                  </svg>
+                  <span>LinkedIn</span>
                 </a>
               )}
             </div>
@@ -324,21 +294,19 @@
     }
 
     // =========================================================================
-    // CUSTOMIZED PROFILE CARD INSTANCE (Passing Props)
+    // CUSTOMIZED PROFILE CARD INSTANCE (Props for Khushi)
     // =========================================================================
     ReactDOM.createRoot(document.getElementById('root')).render(
       <ProfileCard
         name="Khushi"
-        role="Frontend Developer & UI/UX Enthusiast"
-        status="Open to Opportunities"
-        bio="Passionate web development intern focused on building modern, responsive web applications with React and Tailwind CSS. Dedicated to clean component architecture and delightful user experiences."
-        skills={["React 18", "JavaScript (ES6+)", "Tailwind CSS", "HTML5 & CSS3", "Git & GitHub", "Responsive Design"]}
+        role="Web Development Intern at ApnoAI"
+        status="Web Dev Intern @ ApnoAI"
+        bio="Web Development Intern at ApnoAI passionate about building modern, responsive, and component-driven web applications using React, JavaScript, and Tailwind CSS."
+        skills={["React 18", "JavaScript (ES6+)", "Tailwind CSS", "HTML5", "CSS3", "Git & GitHub"]}
         avatar="https://github.com/codeswithkhushi.png"
-        initialLikes={48}
+        initialLikes={52}
         github="https://github.com/codeswithkhushi"
-        linkedin="https://linkedin.com/in/codeswithkhushi"
-        twitter="https://twitter.com/codeswithkhushi"
-        instagram="https://instagram.com/codeswithkhushi"
+        linkedin="https://www.linkedin.com/in/khushi-67102939a"
       />
     );
   </script>

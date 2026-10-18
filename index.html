@@ -178,15 +178,15 @@
                       src={avatar}
                       alt={name}
                       style={{
-                        transform: 'scale(1.45)',
-                        transformOrigin: 'center 25%'
+                        transform: 'scale(1.55) translateY(-7%)',
+                        transformOrigin: 'center 20%'
                       }}
                       onError={(e) => {
                         // Fallback avatar in case local file is missing
                         e.currentTarget.onerror = null;
                         e.currentTarget.src = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=faces";
                       }}
-                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.52]"
+                      className="w-full h-full object-cover transition-all duration-300 group-hover:brightness-105"
                     />
                   </div>
                 </div>
